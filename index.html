@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whale Card - สั่งทำเว็บการ์ดสุดพิเศษ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mali', cursive;
+            background-color: #f0f9ff;
+        }
+        .form-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid #e0f2fe;
+        }
+        .input-focus:focus {
+            outline: none;
+            border-color: #7dd3fc;
+            box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.3);
+        }
+        .required-label::after {
+            content: " *";
+            color: #ef4444;
+        }
+        .image-preview-slot {
+            aspect-ratio: 1;
+            border: 2px dashed #e0f2fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 1rem;
+            background: #fff;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .image-preview-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            z-index: 10;
+            border: 1px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .qa-box {
+            background: #fff5f8;
+            border: 1px dashed #fda4af;
+            transition: all 0.3s ease;
+        }
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .animate-pop {
+            animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen py-10 px-4">
+
+    <div class="max-w-2xl mx-auto">
+        <!-- Logo & Header -->
+        <div class="text-center mb-10">
+            <img src="https://i.ibb.co/k268SxR2/WHALE3.png" alt="Whale Logo" class="w-32 h-32 mx-auto mb-4 drop-shadow-lg object-contain">
+            <h1 class="text-3xl font-bold text-sky-600 mb-2">Whale Web Card</h1>
+            <p class="text-sky-400 text-sm">สร้างความทรงจำดีๆ ผ่านเว็บการ์ดสุดน่ารัก (Create special memories)</p>
+        </div>
+
+        <!-- Form Container -->
+        <div class="form-card rounded-3xl p-8 shadow-xl">
+            <form id="orderForm" class="space-y-6">
+                
+                <!-- 1. เว็บการ์ดแนวไหน (บังคับ) -->
+                <div>
+                    <label class="block text-sky-700 font-bold mb-2 required-label">🎈 เว็บการ์ดแนวไหน? (Card Category)</label>
+                    <input type="text" name="card_type" placeholder="เช่น วันครบรอบ, วันเกิด (e.g. Anniversary)" class="w-full p-3 rounded-xl border-2 border-sky-100 input-focus transition-all" required>
+                </div>
+
+                <!-- 2 & 3. ชื่อเล่น & ชื่อคนพิเศษ -->
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <label class="block text-sky-700 font-bold mb-2 required-label">👤 ชื่อเล่นของคุณ (Your Nickname)</label>
+                        <input type="text" name="customer_name" placeholder="ชื่อเล่นของคุณ" class="w-full p-3 rounded-xl border-2 border-sky-100 input-focus transition-all" required>
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-sky-700 font-bold mb-2 required-label">💖 ชื่อคนพิเศษ (Receiver Name)</label>
+                        <input type="text" name="receiver_name" placeholder="ชื่อคนที่จะได้รับ" class="w-full p-3 rounded-xl border-2 border-sky-100 input-focus transition-all" required>
+                    </div>
+                </div>
+
+                <!-- 4. โทนสี (บังคับ) และ รหัสผ่าน (ตัวเลือก) -->
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <label class="block text-sky-700 font-bold mb-2 required-label">🎨 โทนสีที่ใช้ (Color Tone)</label>
+                        <input type="text" name="color_tone" placeholder="เช่น ชมพูขาว, #ff86b0" class="w-full p-3 rounded-xl border-2 border-sky-100 input-focus transition-all" required>
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-sky-700 font-medium mb-2">🔒 รหัสผ่านปลดล็อก (Passcode)</label>
+                        <input type="text" name="passcode" maxlength="4" pattern="\d{4}" placeholder="ตัวเลข 4 หลัก (ถ้ามี)" class="w-full p-3 rounded-xl border border-sky-100 input-focus transition-all">
+                    </div>
+                </div>
+
+                <!-- 5. ลิงก์เพลงประกอบ (บังคับ) -->
+                <div>
+                    <label class="block text-sky-700 font-bold mb-2 required-label">🎵 ลิงก์เพลงประกอบ (Background Music URL)</label>
+                    <input type="url" name="music_url" placeholder="ลิงก์จาก Youtube หรือ Spotify" class="w-full p-3 rounded-xl border-2 border-sky-100 input-focus transition-all" required>
+                </div>
+
+                <!-- 6. ชื่อเพลงสำหรับทำ QR Code -->
+                <div>
+                    <label class="block text-sky-700 font-medium mb-2">📱 ชื่อเพลงสำหรับทำ QR Code (Song for QR)</label>
+                    <input type="text" name="qr_music" placeholder="ชื่อเพลง หรือพิมพ์ว่า 'ไม่ทำ'" class="w-full p-3 rounded-xl border border-sky-100 input-focus transition-all">
+                </div>
+
+                <!-- ส่วนอื่นๆ (ไม่บังคับ/ตัวเลือก) -->
+                <hr class="border-sky-50">
+
+                <!-- อัปโหลดรูปภาพ (แก้ไขให้แสดงตามลำดับและมีปุ่มลบ) -->
+                <div>
+                    <label class="block text-sky-700 font-medium mb-2">📸 อัปโหลดรูปภาพ (Upload Images) - เลือกได้สูงสุด 5 รูป</label>
+                    <div class="grid grid-cols-5 gap-2 mb-3" id="imagePreviewContainer">
+                        <div class="image-preview-slot" id="slot-0"><span class="text-xs text-sky-200">1</span></div>
+                        <div class="image-preview-slot" id="slot-1"><span class="text-xs text-sky-200">2</span></div>
+                        <div class="image-preview-slot" id="slot-2"><span class="text-xs text-sky-200">3</span></div>
+                        <div class="image-preview-slot" id="slot-3"><span class="text-xs text-sky-200">4</span></div>
+                        <div class="image-preview-slot" id="slot-4"><span class="text-xs text-sky-200">5</span></div>
+                    </div>
+                    <input type="file" id="imageInput" accept="image/*" multiple class="block w-full text-sm text-sky-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100">
+                    <p id="fileLimitText" class="text-[10px] text-red-500 mt-2 font-medium">* เลือกได้ไม่เกิน 5 รูป และขนาดรวมต้องไม่เกิน 10MB</p>
+                </div>
+
+                <!-- ข้อความ -->
+                <div>
+                    <label class="block text-sky-700 font-medium mb-2">📝 ข้อความ/คำอวยพร (Wishes/Message)</label>
+                    <textarea name="message" rows="3" placeholder="พิมพ์ข้อความของคุณตรงนี้..." class="w-full p-3 rounded-xl border border-sky-100 input-focus transition-all resize-none"></textarea>
+                </div>
+
+                <!-- Q&A Section -->
+                <div class="border-t border-sky-50 pt-6">
+                    <label class="block text-sky-700 font-medium mb-4 text-center text-lg">❓ ต้องการทำ Q&A หรือไม่? (Add Quiz?)</label>
+                    <div class="flex justify-center gap-6 mb-6">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="radio" name="qa_choice" value="no" checked class="hidden peer" onclick="toggleQA(false)">
+                            <div class="px-6 py-2 rounded-full border-2 border-sky-200 text-sky-400 peer-checked:bg-sky-500 peer-checked:text-white peer-checked:border-sky-500 transition-all">ไม่ทำ (No)</div>
+                        </label>
+                        <label class="flex items-center cursor-pointer">
+                            <input type="radio" name="qa_choice" value="yes" class="hidden peer" onclick="toggleQA(true)">
+                            <div class="px-6 py-2 rounded-full border-2 border-sky-200 text-sky-400 peer-checked:bg-pink-500 peer-checked:text-white peer-checked:border-pink-500 transition-all">ทำ (Yes)</div>
+                        </label>
+                    </div>
+
+                    <div id="qa_inputs" class="hidden space-y-8 animate-fade-in">
+                        <div id="questions_container" class="space-y-6">
+                            <!-- JS Generated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="submitBtn" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-4 rounded-2xl shadow-lg transition-all transform hover:scale-[1.02] active:scale-95 flex justify-center items-center">
+                    <span id="btnText">ส่งข้อมูลการสั่งทำ ✨ (Send Order)</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-3xl p-8 max-sm w-full text-center shadow-2xl">
+                <div class="text-5xl mb-4">🐳</div>
+                <h3 class="text-2xl font-bold text-sky-600 mb-2">บันทึกข้อมูลเรียบร้อย! (Success!)</h3>
+                <p class="text-gray-500 mb-6">ข้อมูลถูกส่งเข้าระบบเรียบร้อยแล้ว</p>
+                <button onclick="closeModal()" class="w-full bg-sky-500 text-white py-3 rounded-xl font-bold">ตกลง (OK)</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('questions_container');
+        for (let i = 1; i <= 5; i++) {
+            container.innerHTML += `
+                <div class="qa-box p-5 rounded-2xl space-y-3 shadow-sm">
+                    <label class="block text-pink-600 font-semibold text-sm">คำถามข้อที่ ${i}</label>
+                    <input type="text" name="q${i}_text" placeholder="คำถาม..." class="w-full p-2.5 rounded-lg border border-pink-200 text-sm focus:outline-pink-400">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" name="q${i}_c1" placeholder="ตัวเลือก 1" class="p-2 rounded-lg border border-pink-100 text-xs">
+                        <input type="text" name="q${i}_c2" placeholder="ตัวเลือก 2" class="p-2 rounded-lg border border-pink-100 text-xs">
+                        <input type="text" name="q${i}_c3" placeholder="ตัวเลือก 3" class="p-2 rounded-lg border border-pink-100 text-xs">
+                        <input type="text" name="q${i}_c4" placeholder="ตัวเลือก 4" class="p-2 rounded-lg border border-pink-100 text-xs">
+                    </div>
+                    <input type="text" name="q${i}_correct" placeholder="เฉลยคำตอบ..." class="w-full p-2 rounded-lg border border-green-200 bg-green-50 text-xs focus:outline-green-400">
+                </div>
+            `;
+        }
+
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwCxFqdYohxUm8tFbQMuRqdbsdso2ht8G-VZ9qG0HHIGNlbOEMl6_0Q8rmkbddyJjOHUg/exec';
+        let uploadedImagesBase64 = []; // เก็บ Base64 ของรูปภาพที่อัปโหลด
+        const MAX_TOTAL_SIZE = 10 * 1024 * 1024; // 10MB
+        const MAX_FILES = 5;
+
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            
+            // ตรวจสอบว่ารวมกับที่มีอยู่แล้วเกิน 5 ไหม
+            if (uploadedImagesBase64.length + files.length > MAX_FILES) {
+                alert(`คุณสามารถอัปโหลดได้สูงสุด ${MAX_FILES} รูปเท่านั้น (ขณะนี้มีอยู่ ${uploadedImagesBase64.length} รูป)`);
+                this.value = "";
+                return;
+            }
+
+            let currentTotalSize = 0;
+            // คำนวณขนาด (แบบประมาณการณ์จาก base64 หรือจะใช้ File Object ก็ได้)
+            // ในที่นี้เราจะตรวจแค่ไฟล์ใหม่ที่กำลังจะเพิ่ม
+            files.forEach(file => currentTotalSize += file.size);
+            if (currentTotalSize > MAX_TOTAL_SIZE) {
+                alert("ขนาดไฟล์ใหม่ที่เลือกเกิน 10MB กรุณาลดขนาดรูปภาพลง");
+                this.value = ""; 
+                return;
+            }
+
+            files.forEach((file) => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    if (uploadedImagesBase64.length < MAX_FILES) {
+                        uploadedImagesBase64.push(event.target.result);
+                        renderPreviews();
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+            this.value = ""; // เคลียร์ input เพื่อให้เลือกไฟล์เดิมซ้ำได้ถ้าลบไปแล้ว
+        });
+
+        // ฟังก์ชันวาดตัวอย่างรูปภาพใหม่ทั้งหมดตามลำดับใน Array
+        function renderPreviews() {
+            // เคลียร์ทุกล็อคก่อน
+            for(let i=0; i<5; i++) {
+                const slot = document.getElementById(`slot-${i}`);
+                slot.innerHTML = `<span class="text-xs text-sky-200">${i+1}</span>`;
+                slot.classList.remove('border-sky-300', 'border-solid');
+                slot.classList.add('border-dashed');
+            }
+
+            // ใส่รูปตามลำดับที่มีใน uploadedImagesBase64
+            uploadedImagesBase64.forEach((base64, index) => {
+                const slot = document.getElementById(`slot-${index}`);
+                slot.classList.remove('border-dashed');
+                slot.classList.add('border-sky-300', 'border-solid', 'animate-pop');
+                slot.innerHTML = `
+                    <img src="${base64}">
+                    <div class="delete-btn" onclick="removeImage(${index})">✕</div>
+                `;
+            });
+        }
+
+        // ฟังก์ชันลบรูปตาม index
+        function removeImage(index) {
+            uploadedImagesBase64.splice(index, 1);
+            renderPreviews();
+        }
+
+        function toggleQA(show) {
+            const qaDiv = document.getElementById('qa_inputs');
+            if (show) {
+                qaDiv.classList.remove('hidden');
+                qaDiv.querySelectorAll('input').forEach(input => input.required = true);
+            } else {
+                qaDiv.classList.add('hidden');
+                qaDiv.querySelectorAll('input').forEach(input => input.required = false);
+            }
+        }
+
+        document.getElementById('orderForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            btn.disabled = true;
+            btnText.innerHTML = '<span class="loader"></span> กำลังส่งข้อมูล...';
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            data.images = uploadedImagesBase64;
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    body: JSON.stringify(data),
+                });
+                showSuccess();
+            } catch (error) {
+                alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+                resetBtn();
+            }
+        });
+
+        function showSuccess() {
+            document.getElementById('successModal').style.display = 'flex';
+            resetBtn();
+        }
+
+        function resetBtn() {
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            btn.disabled = false;
+            btnText.innerHTML = 'ส่งข้อมูลการสั่งทำ ✨ (Send Order)';
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').style.display = 'none';
+            document.getElementById('orderForm').reset();
+            uploadedImagesBase64 = [];
+            renderPreviews();
+            toggleQA(false);
+        }
+    </script>
+</body>
+</html>

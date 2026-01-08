@@ -207,6 +207,7 @@
 
     <script>
         const container = document.getElementById('questions_container');
+        // แก้ไข: เพิ่มการกำหนด name ให้กับแต่ละ input ให้ตรงกับ Apps Script
         for (let i = 1; i <= 5; i++) {
             container.innerHTML += `
                 <div class="qa-box p-5 rounded-2xl space-y-3 shadow-sm">
@@ -225,7 +226,6 @@
             `;
         }
 
-        // อัปเดต URL ตามลิงก์ใหม่ที่คุณส่งมา
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyjaEbAAA7ZYktTQJgs2cBm6c9jtqkAgPKJhCX_fRg5ZAkncv-quPtXfHKnLmIToV6igg/exec';
         
         let uploadedImagesBase64 = []; 

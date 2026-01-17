@@ -81,7 +81,7 @@
         }
         @keyframes swim {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
+            50!important { transform: translateY(-15px) rotate(5deg); }
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -103,11 +103,10 @@
     </style>
 </head>
 <body class="min-h-screen py-10 px-4">
-
     <div class="max-w-2xl mx-auto">
         <!-- Logo & Header -->
         <div class="text-center mb-10">
-            <img src="https://i.ibb.co/k268SxR2/WHALE3.png" alt="Whale Logo" class="w-32 h-32 mx-auto mb-4 drop-shadow-lg object-contain">
+            <img src="https://i.ibb.co/FLX32bKg/3.png" alt="Whale Logo" class="w-48 h-48 mx-auto mb-4 drop-shadow-lg object-contain">
             <h1 class="text-3xl font-bold text-sky-600 mb-2">Whale Web Card</h1>
             <p class="text-sky-400 text-sm">สร้างความทรงจำดีๆ ผ่านเว็บการ์ดสุดน่ารัก (Create special memories)</p>
         </div>
@@ -115,7 +114,6 @@
         <!-- Form Container -->
         <div class="form-card rounded-3xl p-8 shadow-xl">
             <form id="orderForm" class="space-y-6">
-                
                 <!-- 1. เว็บการ์ดแนวไหน -->
                 <div>
                     <label class="block text-sky-700 font-bold mb-2 required-label">🎈 เว็บการ์ดแนวไหน? (Card Category)</label>
@@ -266,7 +264,7 @@
         <div id="uploadingModal" class="fixed inset-0 bg-sky-900/40 backdrop-blur-sm hidden items-center justify-center p-4 z-[60]">
             <div class="bg-white rounded-3xl p-10 max-w-sm w-full text-center shadow-2xl animate-pop">
                 <div class="whale-swim mb-6">
-                    <img src="https://i.ibb.co/k268SxR2/WHALE3.png" alt="Whale Loading" class="w-24 h-24 mx-auto object-contain">
+                    <img src="https://i.ibb.co/FLX32bKg/3.png" alt="Whale Loading" class="w-24 h-24 mx-auto object-contain">
                 </div>
                 <h3 class="text-2xl font-bold text-sky-600 mb-2">กำลังเดินทางไปหาเซิร์ฟเวอร์...</h3>
                 <p class="text-gray-500 text-sm mb-4">น้องวาฬกำลังส่งข้อมูลและอัปโหลดรูปภาพ อย่างตั้งใจ โปรดรอสักครู่ครับ</p>
@@ -307,7 +305,6 @@
         }
 
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2Lg3OucZDaUnF83vAn-mZcSkPgFzYu6yRCgJyVVDQ1I4iauR-od8MmoRqktA5DtMK8w/exec';
-        
         let uploadedImagesBase64 = []; 
         const MAX_FILES = 5;
         const MAX_SIZE_MB = 10;
